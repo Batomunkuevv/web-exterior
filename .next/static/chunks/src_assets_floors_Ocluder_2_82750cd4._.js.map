@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 12, "column": 0}, "map": {"version":3,"sources":["file:///Users/batomunkuevv/Desktop/Work/Frontend/web-exterior/src/assets/floors/Ocluder_2/floor-plan.svg.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 715, height: 1399, blurDataURL: null, blurWidth: 0, blurHeight: 0 }\n"],"names":[],"mappings":";;;AAAA;;uCACe;IAAE,KAAA,8IAAA,CAAA,UAAG;IAAE,OAAO;IAAK,QAAQ;IAAM,aAAa;IAAM,WAAW;IAAG,YAAY;AAAE","debugId":null}}]
+}

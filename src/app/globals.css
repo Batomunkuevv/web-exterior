@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --index: calc(1vw + 1vh);
+
+    --general-black: #000;
+    --general-yellow: #f6ff00;
+
+    --panel-background: rgba(255, 255, 255, 0.9);
+    --overlay-background: rgba(0, 0, 0, 0.7);
+
+    --shadow-button-color: rgba(0, 0, 0, 0.25);
+
+    --apartament: rgba(0, 0, 0, 0.15);
+    --apartament-active: rgba(0, 0, 0, 0.4);
+}
+
+html,
+body {
+    @apply font-inter text-[16px] text-black scroll-smooth;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    body {
+        scrollbar-width: thin;
+        scrollbar-color: var(--general-black) #fff;
+    }
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: 0 0;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--general-black);
+    border-radius: 32px;
+    border: 1px solid #fff;
+}
+
+body *::selection {
+    background: var(--general-black);
+    color: #fff;
+}
+
+#threejs-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+#threejs-container canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    max-height: none;
+    max-width: none;
+    object-fit: cover;
+}
+
+.cloudimage-360 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1;
+}
+
+.cloudimage-360 canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    min-width: 100%;
+    min-height: 100%;
+    max-height: none;
+    max-width: none;
+    object-fit: cover;
+}
+
+@layer components {
+    .floor-plan {
+        @apply absolute inset-0 text-apartament [&>svg]:w-full [&>svg]:h-full [&_path]:cursor-pointer;
+    }
+
+    .selected-apartament {
+        @apply text-apartament-active;
+    }
+}
