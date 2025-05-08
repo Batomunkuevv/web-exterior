@@ -31,7 +31,7 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
     const totalImagesRef = useRef(36);
     const isUpdatingCameraRef = useRef(false);
 
-    const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    // const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
     const resetHoveredObject = () => {
         const hovered = hoveredObjectRef.current;
