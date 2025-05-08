@@ -1,4 +1,5 @@
 {
+  "pages": {},
   "app": {
     "[project]/src/app/page": [
       "static/media/Inter_Regular-s.p.1472cf17.woff2",
@@ -10,6 +11,5 @@
     ]
   },
   "appUsingSizeAdjust": true,
-  "pages": {},
   "pagesUsingSizeAdjust": false
 }
