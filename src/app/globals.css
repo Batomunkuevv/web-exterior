@@ -14,12 +14,12 @@
     --shadow-button-color: rgba(0, 0, 0, 0.25);
 
     --apartament: rgba(0, 0, 0, 0.15);
-    --apartament-active: rgba(0, 0, 0, 0.4);
+    --apartament-active: #ff00003e;
 }
 
 html,
 body {
-    @apply font-inter text-[16px] text-black scroll-smooth;
+    @apply font-inter text-[calc(var(--index)*0.55)] text-black scroll-smooth tb:text-[calc(var(--index)*1)];
 }
 
 @supports not selector(::-webkit-scrollbar) {

@@ -37,7 +37,7 @@ const Home = () => {
                 src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"
                 strategy="beforeInteractive"
             />
-            <div className="fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-full h-[100vh] max-w-[849px] tb:max-w-[unset]">
+            <div className="fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[100vh] aspect-square">
                 {mounted && (
                     <div
                         ref={viewerRef}
@@ -49,17 +49,22 @@ const Home = () => {
                         data-index-zero-base="2"
                     ></div>
                 )}
-                <ThreeScene selectedFloor={selectedFloor} setSelectedApartament={setSelectedApartament} setSelectedFloor={setSelectedFloor} setIsOpenFloorPanel={setIsOpenFloorPanel} />
-                <FloorPanel
-                    isOpenFloorPanel={isOpenFloorPanel}
-                    setIsOpenFloorPanel={setIsOpenFloorPanel}
+                <ThreeScene
                     selectedFloor={selectedFloor}
-                    setSelectedFloor={setSelectedFloor}
-                    selectedApartament={selectedApartament}
                     setSelectedApartament={setSelectedApartament}
-                    setTourUrl={setTourUrl}
+                    setSelectedFloor={setSelectedFloor}
+                    setIsOpenFloorPanel={setIsOpenFloorPanel}
                 />
             </div>
+            <FloorPanel
+                isOpenFloorPanel={isOpenFloorPanel}
+                setIsOpenFloorPanel={setIsOpenFloorPanel}
+                selectedFloor={selectedFloor}
+                setSelectedFloor={setSelectedFloor}
+                selectedApartament={selectedApartament}
+                setSelectedApartament={setSelectedApartament}
+                setTourUrl={setTourUrl}
+            />
             <IframePopup iframeUrl={tourUrl} onClose={handleCloseIframePopup} />
         </>
     );

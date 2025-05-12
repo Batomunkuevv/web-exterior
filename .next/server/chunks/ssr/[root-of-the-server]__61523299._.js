@@ -593,7 +593,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist
 ;
 const Button = (props)=>{
     const { className, children, onClick, isDisabled = false, ...rest } = props;
-    const classes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("py-[10px] px-[32px] w-full h-[42px] flex items-center justify-center rounded-[10px] bg-white shadow-button text-[20px] uppercase tb:text-[16px]", "transition-all duration-300 hover:bg-black hover:text-white", className);
+    const classes = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("py-[10px] px-[32px] w-full min-h-[calc(var(--index)*1.4)] flex items-center justify-center rounded-[10px] bg-white shadow-button uppercase", "transition-all duration-300 hover:bg-black hover:text-white", className);
     const buttonProps = rest;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
         type: "button",
@@ -697,17 +697,16 @@ const FloorPanel = ({ selectedFloor, setSelectedFloor, isOpenFloorPanel, setIsOp
         selectedFloor
     ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("p-[40px] z-[100] absolute top-[6.5vh] bottom-[6.5vh] right-[40px] w-full max-w-[422px]", "tb:pt-[48px] tb:p-[24px] tb:w-[unset] tb:inset-[16px] tb:max-w-[unset]", "bg-floor-panel border-2 border-yellow flex flex-col items-center text-center", "overflow-auto transition-all duration-300", {
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$clsx$2f$dist$2f$clsx$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])("py-[calc(var(--index)*1.35)] px-[40px] z-[100] fixed top-[6.5vh] right-[40px] w-full max-w-[calc(var(--index)*13.2)] max-h-[calc(100%-56px)]", "tb:pt-[5vh] tb:pb-[3vh] tb:px-[24px] tb:w-[unset] tb:top-[16px] tb:right-[16px] tb:left-[16px] tb:max-w-[unset] tb:max-h-[calc(100%-32px)]", "bg-floor-panel border-2 border-yellow flex flex-col items-center text-center", "overflow-auto transition-all duration-300", {
             "opacity-100 pointer-events-auto": isOpenFloorPanel,
             "opacity-0 pointer-events-none": !isOpenFloorPanel
         }),
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 onClick: handleCloseClick,
-                className: "absolute top-[24px] right-[16px] text-black",
+                className: "absolute top-[calc(var(--index)*0.7)] right-[calc(var(--index)*0.55)] w-[calc(var(--index)*0.55)] h-[calc(var(--index)*0.55)] text-black",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                    width: "16",
-                    height: "16",
+                    className: "w-full h-full",
                     viewBox: "0 0 16 16",
                     fill: "none",
                     xmlns: "http://www.w3.org/2000/svg",
@@ -744,7 +743,7 @@ const FloorPanel = ({ selectedFloor, setSelectedFloor, isOpenFloorPanel, setIsOp
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                className: "mb-[32px] text-[32px] leading-[130%] xs:text-[24px]",
+                className: "mb-[calc(var(--index)*1.05)] text-[calc(var(--index)*1.05)] leading-[130%] tb:text-[calc(var(--index)*1.5)]",
                 children: "1152 Lafayette Ave"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/ui/FloorPanel.tsx",
@@ -752,7 +751,7 @@ const FloorPanel = ({ selectedFloor, setSelectedFloor, isOpenFloorPanel, setIsOp
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mb-[48px] sm:mb-[32px]",
+                className: "mb-[calc(var(--index)*1.6)] sm:mb-[calc(var(--index)*1.05)]",
                 children: [
                     selectedFloor?.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         dangerouslySetInnerHTML: {

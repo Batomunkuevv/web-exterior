@@ -52,7 +52,7 @@ const Home = ()=>{
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-full h-[100vh] max-w-[849px] tb:max-w-[unset]",
+                className: "fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 h-[100vh] aspect-square",
                 children: [
                     mounted && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         ref: viewerRef,
@@ -76,19 +76,6 @@ const Home = ()=>{
                         fileName: "[project]/src/app/page.tsx",
                         lineNumber: 52,
                         columnNumber: 17
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$ui$2f$FloorPanel$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FloorPanel"], {
-                        isOpenFloorPanel: isOpenFloorPanel,
-                        setIsOpenFloorPanel: setIsOpenFloorPanel,
-                        selectedFloor: selectedFloor,
-                        setSelectedFloor: setSelectedFloor,
-                        selectedApartament: selectedApartament,
-                        setSelectedApartament: setSelectedApartament,
-                        setTourUrl: setTourUrl
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 53,
-                        columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
@@ -96,12 +83,25 @@ const Home = ()=>{
                 lineNumber: 40,
                 columnNumber: 13
             }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$ui$2f$FloorPanel$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FloorPanel"], {
+                isOpenFloorPanel: isOpenFloorPanel,
+                setIsOpenFloorPanel: setIsOpenFloorPanel,
+                selectedFloor: selectedFloor,
+                setSelectedFloor: setSelectedFloor,
+                selectedApartament: selectedApartament,
+                setSelectedApartament: setSelectedApartament,
+                setTourUrl: setTourUrl
+            }, void 0, false, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 59,
+                columnNumber: 13
+            }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$ui$2f$IframePopup$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["IframePopup"], {
                 iframeUrl: tourUrl,
                 onClose: handleCloseIframePopup
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 63,
+                lineNumber: 68,
                 columnNumber: 13
             }, this)
         ]
