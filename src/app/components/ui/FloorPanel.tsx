@@ -3,8 +3,6 @@
 import clsx from "clsx";
 import { useEffect } from "react";
 
-import { requestIOSMotionPermission } from "@utils";
-
 import { FloorPanelProps } from "@t";
 
 import Image from "next/image";
@@ -23,12 +21,6 @@ export const FloorPanel = ({
 
     const handleButtonClick = async () => {
         if (!selectedApartament) return;
-
-        const granted = await requestIOSMotionPermission();
-
-        if (!granted) {
-            console.warn("Пользователь не дал доступ к гироскопу");
-        }
 
         setTourUrl(selectedApartament.tourUrl);
     };
