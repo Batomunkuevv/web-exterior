@@ -1,7 +1,7 @@
 "use client";
 
 import "@/app/globals.css";
-import { useState, useRef, useEffect, MouseEvent } from "react";
+import { useState, useRef, useEffect, MouseEvent, TouchEvent } from "react";
 
 import Script from "next/script";
 import { ThreeScene, FloorPanel, IframePopup } from "@components";
@@ -22,7 +22,7 @@ const Home = () => {
         setTourUrl(null);
     };
 
-    const handleOverlayClick = (e: MouseEvent) => {
+    const handleOverlayClick = (e: MouseEvent | TouchEvent) => {
         e.stopPropagation();
         e.preventDefault();
 
