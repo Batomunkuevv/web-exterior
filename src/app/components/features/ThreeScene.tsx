@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ThreeSceneProps } from "@/types";
@@ -17,7 +17,9 @@ const DRAG_THRESHOLD = 5;
 
 const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
-export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartament, setIsOpenFloorPanel }: ThreeSceneProps) => {
+export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setSelectedApartament, setIsOpenFloorPanel }: ThreeSceneProps) => {
+    console.log("ThreeScene render, isLoading360:", isLoading360);
+
     const containerRef = useRef<HTMLDivElement>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -26,6 +28,7 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
     const raycasterRef = useRef(new THREE.Raycaster());
     const mouseRef = useRef(new THREE.Vector2());
     const hoveredObjectRef = useRef<THREE.Mesh | null>(null);
+    const isLoading360Ref = useRef(isLoading360);
 
     const isDraggingRef = useRef(false);
     const mouseStartXRef = useRef(0);
@@ -63,8 +66,11 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
         setIsOpenFloorPanel(true);
     };
 
-    const handlePointerMove = (clientX: number, clientY: number) => {
-        if (!rendererRef.current || !cameraRef.current || !modelGroupRef.current) return;
+    const handlePointerMove = useCallback((clientX: number, clientY: number) => {
+        if (!rendererRef.current || !cameraRef.current || !modelGroupRef.current || isLoading360Ref.current) {
+            console.log("handlePointerMove blocked:", { isLoading360: isLoading360Ref.current });
+            return;
+        }
 
         const rect = rendererRef.current.domElement.getBoundingClientRect();
         mouseRef.current.x = ((clientX - rect.left) / rect.width) * 2 - 1;
@@ -88,20 +94,23 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
                 hoveredObjectRef.current = mesh;
             }
         }
-    };
+    }, []);
 
-    const handleMouseMove = (e: MouseEvent) => {
-        if (!isDraggingRef.current) {
-            const dx = e.clientX - mouseStartXRef.current;
-            const dy = e.clientY - mouseStartYRef.current;
-            if (Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
-                isDraggingRef.current = true;
+    const handleMouseMove = useCallback(
+        (e: MouseEvent) => {
+            if (!isDraggingRef.current) {
+                const dx = e.clientX - mouseStartXRef.current;
+                const dy = e.clientY - mouseStartYRef.current;
+                if (Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
+                    isDraggingRef.current = true;
+                }
             }
-        }
-        handlePointerMove(e.clientX, e.clientY);
-    };
+            handlePointerMove(e.clientX, e.clientY);
+        },
+        [handlePointerMove]
+    );
 
-    const handleTouchMove = (e: TouchEvent) => {
+    const handleTouchMove = useCallback((e: TouchEvent) => {
         if (e.touches.length === 1) {
             const dx = e.touches[0].clientX - mouseStartXRef.current;
             const dy = e.touches[0].clientY - mouseStartYRef.current;
@@ -109,15 +118,15 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
                 isDraggingRef.current = true;
             }
         }
-    };
+    }, []);
 
-    const handleMouseDown = (e: MouseEvent) => {
+    const handleMouseDown = useCallback((e: MouseEvent) => {
         isDraggingRef.current = false;
         mouseStartXRef.current = e.clientX;
         mouseStartYRef.current = e.clientY;
-    };
+    }, []);
 
-    const handleTouchStart = (e: TouchEvent) => {
+    const handleTouchStart = useCallback((e: TouchEvent) => {
         if (e.touches.length === 1) {
             const clientX = e.touches[0].clientX;
             const clientY = e.touches[0].clientY;
@@ -125,10 +134,10 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
             mouseStartXRef.current = clientX;
             mouseStartYRef.current = clientY;
         }
-    };
+    }, []);
 
-    const handleClick = (e: MouseEvent | TouchEvent) => {
-        if (isDraggingRef.current) return;
+    const handleClick = useCallback((e: MouseEvent | TouchEvent) => {
+        if (isDraggingRef.current || isLoading360Ref.current) return;
 
         const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
         const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
@@ -148,7 +157,7 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
                 handleObjectClick(clickedObject);
             }
         }
-    };
+    }, []);
 
     const updateCameraPosition = () => {
         if (isUpdatingCameraRef.current) return;
@@ -179,6 +188,11 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
             rendererRef.current.render(sceneRef.current, cameraRef.current);
         }
     };
+
+    useEffect(() => {
+        isLoading360Ref.current = isLoading360;
+        console.log("ThreeScene isLoading360 changed:", isLoading360);
+    }, [isLoading360]);
 
     useEffect(() => {
         const container = containerRef.current;

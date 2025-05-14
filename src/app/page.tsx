@@ -9,6 +9,7 @@ import { ThreeScene, FloorPanel, IframePopup } from "@components";
 import { ApartamentType, FloorType } from "@t";
 
 const Home = () => {
+    const [isLoading360, setIsLoading360] = useState(true);
     const [showOverlayButton, setShowOverlayButton] = useState(true);
     const [mounted, setMounted] = useState(false);
     const [isOpenFloorPanel, setIsOpenFloorPanel] = useState(false);
@@ -35,6 +36,10 @@ const Home = () => {
         setShowOverlayButton(false);
     };
 
+    const handle360Loaded = () => {
+        setIsLoading360(false);
+    };
+
     useEffect(() => {
         setMounted(true);
     }, []);
@@ -42,7 +47,39 @@ const Home = () => {
     useEffect(() => {
         if (viewerRef.current && window.CI360) {
             window.CI360.init();
+
+            const viewer = document.querySelector(".cloudimage-360");
+
+            if (viewer) {
+                viewer.addEventListener("load", handle360Loaded);
+
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                            const canvas = viewer.querySelector("canvas");
+
+                            if (canvas) {
+                                handle360Loaded();
+                                observer.disconnect();
+                            }
+                        }
+                    });
+                });
+
+                // Start observing
+                observer.observe(viewer, {
+                    childList: true,
+                    subtree: true,
+                });
+            }
         }
+
+        return () => {
+            const viewer = document.querySelector(".cloudimage-360");
+            if (viewer) {
+                viewer.removeEventListener("load", handle360Loaded);
+            }
+        };
     }, [mounted]);
 
     useEffect(() => {
@@ -90,6 +127,7 @@ const Home = () => {
                     />
                 )}
                 <ThreeScene
+                    isLoading360={isLoading360}
                     selectedFloor={selectedFloor}
                     setSelectedApartament={setSelectedApartament}
                     setSelectedFloor={setSelectedFloor}
