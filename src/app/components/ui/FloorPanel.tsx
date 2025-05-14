@@ -3,10 +3,12 @@
 import clsx from "clsx";
 import { useEffect } from "react";
 
-import Image from "next/image";
-import { Button, FloorPlan } from "@components";
+import { requestIOSMotionPermission } from "@utils";
 
 import { FloorPanelProps } from "@t";
+
+import Image from "next/image";
+import { Button, FloorPlan } from "@components";
 
 export const FloorPanel = ({
     selectedFloor,
@@ -19,8 +21,14 @@ export const FloorPanel = ({
 }: FloorPanelProps) => {
     const floorBase = selectedFloor ? `/floors/${selectedFloor.occluderName}/floor-base.png` : null;
 
-    const handleButtonClick = () => {
+    const handleButtonClick = async () => {
         if (!selectedApartament) return;
+
+        const granted = await requestIOSMotionPermission();
+
+        if (!granted) {
+            console.warn("Пользователь не дал доступ к гироскопу");
+        }
 
         setTourUrl(selectedApartament.tourUrl);
     };
@@ -37,13 +45,13 @@ export const FloorPanel = ({
         if (!selectedFloor) return;
 
         setSelectedApartament(selectedFloor.apartaments[0]);
-    }, [selectedFloor]);
+    }, [selectedFloor, setSelectedApartament]);
 
     return (
         <div
             className={clsx(
                 "py-[calc(var(--index)*1.35)] px-[40px] z-[100] fixed top-[6.5vh] right-[40px] w-full max-w-[calc(var(--index)*13.2)] max-h-[calc(100%-56px)]",
-                "tb:pt-[5vh] tb:pb-[3vh] tb:px-[24px] tb:top-[16px] tb:right-1/2 tb:translate-x-1/2 tb:w-[calc(100%-32px)] tb:max-w-[360px] tb:max-h-[calc(100%-32px)]",
+                "tb:pt-[6vh] tb:pb-[3vh] tb:px-[24px] tb:top-[16px] tb:right-1/2 tb:translate-x-1/2 tb:w-[calc(100%-32px)] tb:max-w-[360px] tb:max-h-[calc(100%-32px)]",
                 "bg-floor-panel border-2 border-yellow flex flex-col items-center text-center",
                 "overflow-auto transition-all duration-300",
                 {
@@ -54,7 +62,7 @@ export const FloorPanel = ({
         >
             <button
                 onClick={handleCloseClick}
-                className="absolute top-[calc(var(--index)*0.7)] right-[calc(var(--index)*0.55)] w-[calc(var(--index)*0.55)] h-[calc(var(--index)*0.55)] text-black"
+                className="absolute top-[calc(var(--index)*0.7)] right-[calc(var(--index)*0.55)] w-[calc(var(--index)*0.55)] h-[calc(var(--index)*0.55)] text-black tb:top-[calc(var(--index)*1)] tb:right-[calc(var(--index)*0.8)] tb:w-[calc(var(--index)*1.5)] tb:h-[calc(var(--index)*1.5)]"
             >
                 <svg className="w-full h-full" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L15 15" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />

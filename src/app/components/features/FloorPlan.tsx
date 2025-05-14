@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState, MouseEvent } from "react";
+import { useEffect, useState, MouseEvent, useCallback } from "react";
 
 import { FloorPlanProps } from "@t";
 
 export const FloorPlan = ({ selectedFloor, selectedApartament, setSelectedApartament }: FloorPlanProps) => {
     const [planSvg, setPlanSvg] = useState<string | null>(null);
 
-    const getPlanSvg = async () => {
+    const getPlanSvg = useCallback(async () => {
         const svgUrl = `/floors/${selectedFloor.occluderName}/floor-plan.svg`;
         const response = await fetch(svgUrl);
         let planSvg = await response.text();
@@ -17,7 +17,7 @@ export const FloorPlan = ({ selectedFloor, selectedApartament, setSelectedAparta
         }
 
         setPlanSvg(planSvg);
-    };
+    }, [selectedApartament, selectedFloor.occluderName]);
 
     const handlePlanClick = (e: MouseEvent) => {
         const { target } = e;
@@ -37,7 +37,7 @@ export const FloorPlan = ({ selectedFloor, selectedApartament, setSelectedAparta
 
     useEffect(() => {
         getPlanSvg();
-    }, [selectedApartament]);
+    }, [selectedApartament, getPlanSvg]);
 
     if (!planSvg) return null;
 

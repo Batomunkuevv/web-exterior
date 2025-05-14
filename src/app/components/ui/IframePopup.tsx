@@ -1,7 +1,23 @@
-import { IframePopupProps } from "@t";
+"use client";
+
 import clsx from "clsx";
+import { useEffect } from "react";
+
+import { IframePopupProps } from "@t";
 
 export const IframePopup = ({ iframeUrl, onClose }: IframePopupProps) => {
+    useEffect(() => {
+        if (iframeUrl) {
+            document.body.classList.add("disable-scroll");
+        } else {
+            document.body.classList.remove("disable-scroll");
+        }
+
+        return () => {
+            document.body.classList.remove("disable-scroll");
+        };
+    }, [iframeUrl]);
+
     if (!iframeUrl) return null;
 
     return (

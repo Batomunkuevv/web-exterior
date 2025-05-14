@@ -115,6 +115,8 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
             const dy = e.touches[0].clientY - mouseStartYRef.current;
             if (Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
                 isDraggingRef.current = true;
+                // Reset hover effect when dragging starts
+                resetHoveredObject();
             }
         }
     }, []);
@@ -134,6 +136,8 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
             isDraggingRef.current = false;
             mouseStartXRef.current = clientX;
             mouseStartYRef.current = clientY;
+            // Reset hover effect on touch start
+            resetHoveredObject();
         }
     }, []);
 
@@ -319,7 +323,7 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
     const handleTouchEnd = (e: TouchEvent) => {
         if (isLoading360Ref.current) return;
 
-        if (e.changedTouches.length === 1) {
+        if (e.changedTouches.length === 1 && !isDraggingRef.current) {
             const clientX = e.changedTouches[0].clientX;
             const clientY = e.changedTouches[0].clientY;
             if (!rendererRef.current || !cameraRef.current || !modelGroupRef.current) return;

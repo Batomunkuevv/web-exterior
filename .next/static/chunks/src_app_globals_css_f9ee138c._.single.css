@@ -626,6 +626,12 @@ html, body {
   }
 }
 
+body.disable-scroll {
+  overscroll-behavior: none;
+  touch-action: none;
+  overflow: hidden;
+}
+
 @supports not selector(::-webkit-scrollbar) {
   body {
     scrollbar-width: thin;
@@ -722,13 +728,25 @@ body ::selection {
     right: 50%;
   }
 
+  .tb\:right-\[calc\(var\(--index\)\*0\.8\)\] {
+    right: calc(var(--index) * .8);
+  }
+
   .tb\:top-\[16px\] {
     top: 16px;
+  }
+
+  .tb\:top-\[calc\(var\(--index\)\*1\)\] {
+    top: calc(var(--index) * 1);
   }
 
   .tb\:mx-\[-24px\] {
     margin-left: -24px;
     margin-right: -24px;
+  }
+
+  .tb\:h-\[calc\(var\(--index\)\*1\.5\)\] {
+    height: calc(var(--index) * 1.5);
   }
 
   .tb\:max-h-\[calc\(100\%-32px\)\] {
@@ -741,6 +759,10 @@ body ::selection {
 
   .tb\:w-\[calc\(100\%-32px\)\] {
     width: calc(100% - 32px);
+  }
+
+  .tb\:w-\[calc\(var\(--index\)\*1\.5\)\] {
+    width: calc(var(--index) * 1.5);
   }
 
   .tb\:max-w-\[360px\] {
@@ -761,8 +783,8 @@ body ::selection {
     padding-bottom: 3vh;
   }
 
-  .tb\:pt-\[5vh\] {
-    padding-top: 5vh;
+  .tb\:pt-\[6vh\] {
+    padding-top: 6vh;
   }
 
   .tb\:text-\[calc\(var\(--index\)\*1\.5\)\] {

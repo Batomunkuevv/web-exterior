@@ -22,6 +22,12 @@ body {
     @apply font-inter text-[calc(var(--index)*0.55)] text-black scroll-smooth tb:text-[calc(var(--index)*1)];
 }
 
+body.disable-scroll {
+    overscroll-behavior: none;
+    touch-action: none;
+    overflow: hidden;
+}
+
 @supports not selector(::-webkit-scrollbar) {
     body {
         scrollbar-width: thin;

@@ -2,12 +2,12 @@
   "pages": {},
   "app": {
     "[project]/src/app/_not-found/page": [
-      "static/media/Inter_Bold-s.p.2f59686c.woff",
-      "static/media/Inter_Regular-s.p.c5a649cc.woff",
-      "static/media/Inter_Bold-s.p.596f1724.woff2",
-      "static/media/Inter_Regular-s.p.1472cf17.woff2",
       "static/media/Inter_Medium-s.p.8745370b.woff2",
-      "static/media/Inter_Medium-s.p.fc839b65.woff"
+      "static/media/Inter_Regular-s.p.c5a649cc.woff",
+      "static/media/Inter_Bold-s.p.2f59686c.woff",
+      "static/media/Inter_Medium-s.p.fc839b65.woff",
+      "static/media/Inter_Regular-s.p.1472cf17.woff2",
+      "static/media/Inter_Bold-s.p.596f1724.woff2"
     ]
   },
   "appUsingSizeAdjust": true,
