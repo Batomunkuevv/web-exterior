@@ -15,6 +15,8 @@ const CAMERA_ASPECT_RATIO = 2048 / 2048;
 const VERTICAL_FOV = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV / 2) / CAMERA_ASPECT_RATIO)));
 const DRAG_THRESHOLD = 5;
 
+const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
 export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartament, setIsOpenFloorPanel }: ThreeSceneProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -31,7 +33,9 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
     const totalImagesRef = useRef(36);
     const isUpdatingCameraRef = useRef(false);
 
-    // const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    // Цвета для выделения
+    const HOVER_COLOR = new THREE.Color("#4A90E2"); // мягкий синий
+    const ACTIVE_COLOR = new THREE.Color("#0074D9"); // ярко-синий
 
     const resetHoveredObject = () => {
         const hovered = hoveredObjectRef.current;
@@ -41,11 +45,19 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
         }
     };
 
+    // Для хранения активного объекта (кликнутого)
+    const activeObjectRef = useRef<THREE.Mesh | null>(null);
+
     const handleObjectClick = (object: THREE.Object3D) => {
         const floor = floorsData.find((f) => f.occluderName === object.name);
         if (!floor) return;
 
         resetHoveredObject();
+        // Выделить кликнутый объект ярко-синим
+        if ((object as THREE.Mesh).isMesh && (object as THREE.Mesh).userData?.activeMaterial) {
+            (object as THREE.Mesh).material = (object as THREE.Mesh).userData.activeMaterial;
+            activeObjectRef.current = object as THREE.Mesh;
+        }
         setSelectedFloor(floor);
         setSelectedApartament(null);
         setIsOpenFloorPanel(true);
@@ -91,7 +103,11 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
 
     const handleTouchMove = (e: TouchEvent) => {
         if (e.touches.length === 1) {
-            handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+            const dx = e.touches[0].clientX - mouseStartXRef.current;
+            const dy = e.touches[0].clientY - mouseStartYRef.current;
+            if (Math.sqrt(dx * dx + dy * dy) > DRAG_THRESHOLD) {
+                isDraggingRef.current = true;
+            }
         }
     };
 
@@ -103,9 +119,11 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
 
     const handleTouchStart = (e: TouchEvent) => {
         if (e.touches.length === 1) {
+            const clientX = e.touches[0].clientX;
+            const clientY = e.touches[0].clientY;
             isDraggingRef.current = false;
-            mouseStartXRef.current = e.touches[0].clientX;
-            mouseStartYRef.current = e.touches[0].clientY;
+            mouseStartXRef.current = clientX;
+            mouseStartYRef.current = clientY;
         }
     };
 
@@ -137,8 +155,10 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
         isUpdatingCameraRef.current = true;
 
         const viewer = window.CI360;
+
         if (viewer?.getActiveIndexByID && cameraRef.current) {
             const index = viewer.getActiveIndexByID("product-360");
+
             if (index !== undefined) {
                 const angle = -(index / totalImagesRef.current) * Math.PI * 2;
                 const x = ROTATION_CENTER.x + CAMERA_RADIUS * Math.sin(angle);
@@ -199,9 +219,19 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
                     });
 
                     const hoverMaterial = new THREE.MeshBasicMaterial({
-                        color: originalColor,
+                        color: HOVER_COLOR,
                         transparent: true,
                         opacity: 0.4,
+                        depthWrite: false,
+                        depthTest: true,
+                        side: THREE.FrontSide,
+                        blending: THREE.NoBlending,
+                    });
+
+                    const activeMaterial = new THREE.MeshBasicMaterial({
+                        color: ACTIVE_COLOR,
+                        transparent: true,
+                        opacity: 0.6,
                         depthWrite: false,
                         depthTest: true,
                         side: THREE.FrontSide,
@@ -215,6 +245,7 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
                         info: "Occluder",
                         defaultMaterial: occluderMaterial,
                         hoverMaterial: hoverMaterial,
+                        activeMaterial: activeMaterial,
                     };
                 }
             });
@@ -243,17 +274,21 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
         const enable = !selectedFloor;
 
         if (enable) {
-            window.addEventListener("mousemove", handleMouseMove);
             window.addEventListener("mousedown", handleMouseDown);
             window.addEventListener("click", handleClick);
             window.addEventListener("touchstart", handleTouchStart, { passive: false });
             window.addEventListener("touchmove", handleTouchMove, { passive: false });
+            window.addEventListener("touchend", handleTouchEnd, { passive: false });
+            if (!isTouchDevice) {
+                window.addEventListener("mousemove", handleMouseMove);
+            }
         } else {
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mousedown", handleMouseDown);
             window.removeEventListener("click", handleClick);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("touchend", handleTouchEnd);
             resetHoveredObject();
         }
 
@@ -263,7 +298,35 @@ export const ThreeScene = ({ selectedFloor, setSelectedFloor, setSelectedApartam
             window.removeEventListener("click", handleClick);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
+            window.removeEventListener("touchend", handleTouchEnd);
         };
+    }, [selectedFloor]);
+
+    const handleTouchEnd = (e: TouchEvent) => {
+        if (e.changedTouches.length === 1) {
+            const clientX = e.changedTouches[0].clientX;
+            const clientY = e.changedTouches[0].clientY;
+            if (!rendererRef.current || !cameraRef.current || !modelGroupRef.current) return;
+            const rect = rendererRef.current.domElement.getBoundingClientRect();
+            mouseRef.current.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+            mouseRef.current.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+            raycasterRef.current.setFromCamera(mouseRef.current, cameraRef.current);
+            const intersects = raycasterRef.current.intersectObjects(modelGroupRef.current.children, true);
+            if (intersects.length > 0) {
+                const clickedObject = intersects[0].object;
+                if (clickedObject.userData?.info) {
+                    handleObjectClick(clickedObject);
+                }
+            }
+        }
+    };
+
+    // Новый useEffect для сброса activeObjectRef при закрытии панели
+    useEffect(() => {
+        if (selectedFloor === null && activeObjectRef.current && activeObjectRef.current.userData?.defaultMaterial) {
+            activeObjectRef.current.material = activeObjectRef.current.userData.defaultMaterial;
+            activeObjectRef.current = null;
+        }
     }, [selectedFloor]);
 
     return <div ref={containerRef} id="threejs-container" className="w-full h-full" />;
