@@ -18,8 +18,6 @@ const DRAG_THRESHOLD = 5;
 const isTouchDevice = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
 export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setSelectedApartament, setIsOpenFloorPanel }: ThreeSceneProps) => {
-    console.log("ThreeScene render, isLoading360:", isLoading360);
-
     const containerRef = useRef<HTMLDivElement>(null);
     const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
     const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -68,7 +66,6 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
 
     const handlePointerMove = useCallback((clientX: number, clientY: number) => {
         if (!rendererRef.current || !cameraRef.current || !modelGroupRef.current || isLoading360Ref.current) {
-            console.log("handlePointerMove blocked:", { isLoading360: isLoading360Ref.current });
             return;
         }
 
@@ -191,7 +188,6 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
 
     useEffect(() => {
         isLoading360Ref.current = isLoading360;
-        console.log("ThreeScene isLoading360 changed:", isLoading360);
     }, [isLoading360]);
 
     useEffect(() => {
