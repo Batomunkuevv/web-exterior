@@ -24,6 +24,8 @@ const Home = () => {
     };
 
     const handleOverlayClick = (e: MouseEvent | TouchEvent) => {
+        if (isLoading360) return;
+
         e.stopPropagation();
         e.preventDefault();
 
