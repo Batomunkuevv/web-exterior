@@ -108,6 +108,8 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
     );
 
     const handleTouchMove = useCallback((e: TouchEvent) => {
+        if (isLoading360Ref.current) return;
+
         if (e.touches.length === 1) {
             const dx = e.touches[0].clientX - mouseStartXRef.current;
             const dy = e.touches[0].clientY - mouseStartYRef.current;
@@ -124,6 +126,8 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
     }, []);
 
     const handleTouchStart = useCallback((e: TouchEvent) => {
+        if (isLoading360Ref.current) return;
+
         if (e.touches.length === 1) {
             const clientX = e.touches[0].clientX;
             const clientY = e.touches[0].clientY;
@@ -313,6 +317,8 @@ export const ThreeScene = ({ isLoading360, selectedFloor, setSelectedFloor, setS
     }, [selectedFloor]);
 
     const handleTouchEnd = (e: TouchEvent) => {
+        if (isLoading360Ref.current) return;
+
         if (e.changedTouches.length === 1) {
             const clientX = e.changedTouches[0].clientX;
             const clientY = e.changedTouches[0].clientY;

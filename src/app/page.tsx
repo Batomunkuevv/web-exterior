@@ -50,17 +50,15 @@ const Home = () => {
         if (viewerRef.current && window.CI360) {
             window.CI360.init();
 
-            const viewer = document.querySelector(".cloudimage-360");
+            const viewer = viewerRef.current;
 
             if (viewer) {
-                viewer.addEventListener("load", handle360Loaded);
-
                 const observer = new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
                         if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
-                            const canvas = viewer.querySelector("canvas");
+                            const cloudImage360Loader = viewer.querySelector(".cloudimage-360-loader");
 
-                            if (canvas) {
+                            if (!cloudImage360Loader) {
                                 handle360Loaded();
                                 observer.disconnect();
                             }
@@ -68,20 +66,12 @@ const Home = () => {
                     });
                 });
 
-                // Start observing
                 observer.observe(viewer, {
                     childList: true,
                     subtree: true,
                 });
             }
         }
-
-        return () => {
-            const viewer = document.querySelector(".cloudimage-360");
-            if (viewer) {
-                viewer.removeEventListener("load", handle360Loaded);
-            }
-        };
     }, [mounted]);
 
     useEffect(() => {
